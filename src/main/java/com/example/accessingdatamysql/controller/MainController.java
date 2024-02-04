@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql;
+package com.example.accessingdatamysql.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.accessingdatamysql.entity.User;
+import com.example.accessingdatamysql.repository.UserRepository;
 
 @Controller
 @RequestMapping(path = "/demo")
@@ -17,10 +20,7 @@ public class MainController {
 
     @PostMapping(path = "/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {
-
-        User n = new User();
-        n.setName(name);
-        n.setEmail(email);
+        User n = new User(name, email);
         userRepository.save(n);
         return "Saved";
     }
