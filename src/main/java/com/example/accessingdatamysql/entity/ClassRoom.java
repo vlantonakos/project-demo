@@ -1,9 +1,11 @@
 package com.example.accessingdatamysql.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,14 +19,18 @@ public class ClassRoom {
 
     private String classRoomName;
 
-    @OneToMany(mappedBy = "classRoom", cascade = CascadeType.ALL)
-    private ArrayList<Student> students;
+    @OneToMany(mappedBy = "classRoom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Student> students = new ArrayList<>();
+
+    public ClassRoom() {
+        // Default constructor
+    }
 
     public ClassRoom(String classRoomName) {
         this.classRoomName = classRoomName;
     }
 
-    public ClassRoom(String classRoomName, ArrayList<Student> students) {
+    public ClassRoom(String classRoomName, List<Student> students) {
         this.classRoomName = classRoomName;
         this.students = students;
     }
@@ -45,12 +51,32 @@ public class ClassRoom {
         this.classRoomName = classRoomName;
     }
 
-    public ArrayList<Student> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(ArrayList<Student> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    // Method to concatenate student names separated by commas
+    public String getStudentNames() {
+        StringBuilder namesBuilder = new StringBuilder();
+        for (Student student : students) {
+            namesBuilder.append(student.getStudentName()).append(",");
+        }
+        if (namesBuilder.length() > 0) {
+            namesBuilder.setLength(namesBuilder.length() - 1); // Remove the last comma
+        }
+        return namesBuilder.toString();
+    }
+
+    public void addStudent(Student student) {
+        if (students == null) {
+            students = new ArrayList<>();
+        }
+        students.add(student);
+        student.setClassRoom(this);
     }
 
 }

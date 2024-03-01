@@ -14,4 +14,6 @@ public interface StudentDAO {
     List<Student> findAll();
 
     List<Student> findAllStudentsByClassRoomName(String classRoomName);
+
+    Student addStudent(String studentName, Integer classRoomId);
 }

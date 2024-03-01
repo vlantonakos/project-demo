@@ -1,5 +1,7 @@
 package com.example.accessingdatamysql.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +19,12 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "classroom_id")
+    @JsonIgnore
     private ClassRoom classRoom;
+
+    public Student() {
+        // Default constructor
+    }
 
     public Student(String studentName) {
         this.studentName = studentName;
